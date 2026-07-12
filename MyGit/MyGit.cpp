@@ -33,11 +33,27 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		std::ofstream outFile("./.mygit/HEAD");
-		if (!outFile) {
-			std::cerr << "Error opening file for writing\n";
+		check = std::filesystem::create_directory("./.mygit/refs/heads");
+		if (!check) {
+			std::cerr << "Cannot create a refs/heads folder\n";
 			return 1;
 		}
+
+		std::ofstream outFile("./.mygit/refs/heads/main");
+		if (!outFile) {
+			std::cerr << "Error opening main file for writing\n";
+			return 1;
+		}
+		outFile.close();
+
+		outFile.open("./.mygit/HEAD");
+		if (!outFile) {
+			std::cerr << "Error opening HEAD file for writing\n";
+			return 1;
+		}
+
+		outFile << "ref: refs/heads/main";
+		outFile.close();
 
 		std::cout << "Hello CMake.\n";
 	}
