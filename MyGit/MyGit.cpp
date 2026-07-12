@@ -15,48 +15,61 @@ int main(int argc, char* argv[])
 
 	if (command == "init") {
 
-		int check = std::filesystem::create_directory(".mygit");
-		if (!check) {
-			std::cerr << "Cannot create a root folder\n";
-			return 1;
-		} 
-
-		check = std::filesystem::create_directory("./.mygit/objects");
-		if (!check) {
-			std::cerr << "Cannot create a objects folder\n";
+		if (InitializeRepository()) {
 			return 1;
 		}
-
-		check = std::filesystem::create_directory("./.mygit/refs");
-		if (!check) {
-			std::cerr << "Cannot create a refs folder\n";
-			return 1;
-		}
-
-		check = std::filesystem::create_directory("./.mygit/refs/heads");
-		if (!check) {
-			std::cerr << "Cannot create a refs/heads folder\n";
-			return 1;
-		}
-
-		std::ofstream outFile("./.mygit/refs/heads/main");
-		if (!outFile) {
-			std::cerr << "Error opening main file for writing\n";
-			return 1;
-		}
-		outFile.close();
-
-		outFile.open("./.mygit/HEAD");
-		if (!outFile) {
-			std::cerr << "Error opening HEAD file for writing\n";
-			return 1;
-		}
-
-		outFile << "ref: refs/heads/main";
-		outFile.close();
 
 		std::cout << "Hello CMake.\n";
 	}
 	
+	return 0;
+}
+
+bool InitializeRepository() {
+	if (std::filesystem::exists(".mygit")) {
+		std::cerr << "Repository is already initialized\n";
+		return 1;
+	}
+
+	int check = std::filesystem::create_directory(".mygit");
+	if (!check) {
+		std::cerr << "Cannot create a root folder\n";
+		return 1;
+	}
+
+	check = std::filesystem::create_directory("./.mygit/objects");
+	if (!check) {
+		std::cerr << "Cannot create a objects folder\n";
+		return 1;
+	}
+
+	check = std::filesystem::create_directory("./.mygit/refs");
+	if (!check) {
+		std::cerr << "Cannot create a refs folder\n";
+		return 1;
+	}
+
+	check = std::filesystem::create_directory("./.mygit/refs/heads");
+	if (!check) {
+		std::cerr << "Cannot create a refs/heads folder\n";
+		return 1;
+	}
+
+	std::ofstream outFile("./.mygit/refs/heads/main");
+	if (!outFile) {
+		std::cerr << "Error opening main file for writing\n";
+		return 1;
+	}
+	outFile.close();
+
+	outFile.open("./.mygit/HEAD");
+	if (!outFile) {
+		std::cerr << "Error opening HEAD file for writing\n";
+		return 1;
+	}
+
+	outFile << "ref: refs/heads/main";
+	outFile.close();
+
 	return 0;
 }
