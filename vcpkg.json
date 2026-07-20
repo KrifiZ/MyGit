@@ -1,0 +1,9 @@
+{
+  "name": "mygit",
+  "version": "1.0.0",
+  "builtin-baseline": "908da3a305a0a8028d9602ab241b433652b3df69",
+  "dependencies": [
+    "openssl",
+    "zlib"
+  ]
+}

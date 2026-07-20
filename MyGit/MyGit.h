@@ -6,3 +6,4 @@
 #include <iostream>
 
 bool InitializeRepository();
+void hash(std::string path);
