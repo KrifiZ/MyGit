@@ -4,6 +4,6 @@
 #pragma once
 
 #include <iostream>
+#include "../utils/ZLibWrapper.h"
 
 bool InitializeRepository();
-void hash(std::string path);
