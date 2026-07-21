@@ -3,10 +3,12 @@
 #include <filesystem>
 #include <fstream>
 #include "MyGit.h"
+#include "../commands/Add.h"
 
 
 int main(int argc, char* argv[])
 {
+	std::cin.get();
 	if (argc < 2) {
 		std::cerr << "Invalid arguments\n";
 		return 1;
@@ -23,9 +25,19 @@ int main(int argc, char* argv[])
 		std::cout << "Hello CMake.\n";
 	}
 
-	std::unique_ptr<ZLibWrapper> zLib = std::make_unique<ZLibWrapper>();
-	zLib->compressBlob(R"(C:\Users\micha\Desktop\Robert M. Wegner - Opowiesci z meekhanskiego pogranicza Polnoc-Poludnie czyta F.Kosior 96kbps\01.mp3)");
-	
+	if (command == "add") {
+		std::unique_ptr<Add> add = std::make_unique<Add>();
+		if (strcmp(argv[2], ".") == 0) {
+			printf("Work in progress\n");
+			exit(1);
+		}
+
+		for (size_t i = 2; i < argc; i++){
+			const std::string& path = argv[i];
+			add->addBlob(path);
+		}
+	}
+
 	return 0;
 }
 

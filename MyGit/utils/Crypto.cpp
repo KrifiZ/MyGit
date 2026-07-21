@@ -50,7 +50,6 @@ std::string Crypto::generateSum(type t, const std::string& path) {
 	{
 	case type::BLOB: {
 		std::string str = std::string("blob") + ' ' + std::to_string(length) + '\0';
-		printf("%s", str.c_str());
 		EVP_DigestUpdate(mdctx, str.c_str(), str.size());
 		break;
 	}
@@ -85,11 +84,6 @@ std::string Crypto::generateSum(type t, const std::string& path) {
 		exit(1);
 	}
 	EVP_MD_CTX_free(mdctx);
-
-	printf("Digest is: ");
-
-	for (unsigned int i = 0; i < md_len; i++)
-		printf("%02x", md_value[i]);
 
 	std::ostringstream oss;
 	for (unsigned int i = 0; i < md_len; i++) {

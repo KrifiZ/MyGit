@@ -4,10 +4,10 @@
 #include <iostream>
 #include <vector>
 
-void ZLibWrapper::compressBlob(const std::string& path) {
+void ZLibWrapper::compressBlob(const std::string& hash,const std::string& path) {
 	std::ifstream ifFile(path, std::ios::binary);
 	if (!ifFile) {
-		printf("Error opening main file for writing\n");
+		printf("Error opening main file for reading\n");
 		exit(1);
 	}
 
@@ -31,7 +31,10 @@ void ZLibWrapper::compressBlob(const std::string& path) {
 	}
 
 	dest.resize(destinationLength);
-
-	std::cout << "Before: " << sourceLength << " bytes\n";
-	std::cout << "After: " << destinationLength << " bytes\n";
+	std::ofstream ofFile(std::string(".mygit/objects/") + hash.substr(0, 2) + "/" + hash.substr(2), std::ios::binary);
+	if (!ofFile) {
+		printf("Error opening main file for writing\n");
+		exit(1);
+	}
+	ofFile.write(reinterpret_cast<const char*>(dest.data()), dest.size());
 }
