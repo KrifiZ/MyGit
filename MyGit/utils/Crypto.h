@@ -7,7 +7,9 @@ enum type {
 	TREE
 };
 
+const char* to_string(type t);
+
 class Crypto {
 public:
-	std::string generateSum(type t, const std::string& path);
+	std::string sha1Hex(const std::string& data);
 };

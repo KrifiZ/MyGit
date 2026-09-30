@@ -4,11 +4,10 @@
 #include <fstream>
 #include "MyGit.h"
 #include "../commands/Add.h"
-
+#include "Objects.h"
 
 int main(int argc, char* argv[])
 {
-	std::cin.get();
 	if (argc < 2) {
 		std::cerr << "Invalid arguments\n";
 		return 1;
@@ -26,6 +25,11 @@ int main(int argc, char* argv[])
 	}
 
 	if (command == "add") {
+		if (argc < 3) {
+			std::cerr << "Invalid arguments\n";
+			return 1;
+		}
+
 		std::unique_ptr<Add> add = std::make_unique<Add>();
 		if (strcmp(argv[2], ".") == 0) {
 			printf("Work in progress\n");
@@ -36,6 +40,14 @@ int main(int argc, char* argv[])
 			const std::string& path = argv[i];
 			add->addBlob(path);
 		}
+	}
+
+	if (command == "hash-object") {
+		if (argc < 3) {
+			std::cerr << "Invalid arguments\n";
+			return 1;
+		}
+		std::cout << hashObject(type::BLOB,readFile(argv[2])) << "\n";
 	}
 
 	return 0;
