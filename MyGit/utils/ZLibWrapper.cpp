@@ -20,5 +20,23 @@ std::string ZLibWrapper::compressData(const std::string& data) {
 }
 
 std::string ZLibWrapper::decompressData(const std::string& data) {
-	return "";
+	std::string dest(data.size() * 4 + 64, '\0');
+	int ret = Z_OK;
+
+	do {
+		uLongf destinationLength = dest.size();
+		ret = uncompress(reinterpret_cast<Bytef*>(dest.data()), &destinationLength, reinterpret_cast<const Bytef*>(data.data()), static_cast<uLongf>(data.size()));
+		if (ret == Z_OK) {
+			dest.resize(destinationLength);
+		}
+		else if (ret == Z_BUF_ERROR) {
+			dest.resize(dest.size() * 2);
+		}
+	} while (ret == Z_BUF_ERROR);
+
+	if (ret != Z_OK) {
+		std::cerr << "decompression error: " << ret << "\n";
+		exit(1);
+	}
+	return dest;
 }

@@ -46,7 +46,13 @@ std::string writeObject(type t, const std::string& content) {
 }
 
 Object readObject(const std::string& hash) {
-	return Object();
+	std::string path = std::string(".mygit/objects/") + hash.substr(0, 2) + "/" + hash.substr(2);
+	std::string raw = ZLibWrapper().decompressData(readFile(path));
+
+	Object obj;
+	obj.kind = raw.substr(0, raw.find(' '));
+	obj.content = raw.substr(raw.find('\0') + 1);
+	return obj;
 }
 
 std::string rawToHex(const std::string& raw) {

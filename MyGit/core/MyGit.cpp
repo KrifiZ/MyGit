@@ -5,9 +5,13 @@
 #include "MyGit.h"
 #include "../commands/Add.h"
 #include "Objects.h"
+#include <io.h>
+#include <fcntl.h>
 
 int main(int argc, char* argv[])
 {
+	_setmode(_fileno(stdout), _O_BINARY);
+
 	if (argc < 2) {
 		std::cerr << "Invalid arguments\n";
 		return 1;
@@ -48,6 +52,15 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		std::cout << hashObject(type::BLOB,readFile(argv[2])) << "\n";
+	}
+
+	if (command == "cat-file") {
+		if (argc < 3 || strlen(argv[2]) != 40) {
+			std::cerr << "Usage: mygit cat-file <40-char hash>\n";
+			return 1;
+		}
+		Object obj = readObject(argv[2]);
+		std::cout << obj.kind << "\n" << obj.content;
 	}
 
 	return 0;
