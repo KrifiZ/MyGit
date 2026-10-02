@@ -33,17 +33,24 @@ int main(int argc, char* argv[])
 			std::cerr << "Invalid arguments\n";
 			return 1;
 		}
-
-		std::unique_ptr<Add> add = std::make_unique<Add>();
-		if (strcmp(argv[2], ".") == 0) {
-			printf("Work in progress\n");
-			exit(1);
+		if (!std::filesystem::exists(".mygit/objects")) {
+			std::cerr << "Repository is not initialized\n";
+			return 1;
 		}
 
-		for (size_t i = 2; i < argc; i++){
-			const std::string& path = argv[i];
-			add->addBlob(path);
+		Index index = loadIndex();
+		Add add;
+		if (std::string_view(argv[2]) == ".") {
+			for (const std::string& path : listWorkingFiles()) {
+				add.addBlob(path, index);
+			}
 		}
+		else {
+			for (int i = 2; i < argc; i++) {
+				add.addBlob(argv[i], index);
+			}
+		}
+		saveIndex(index);
 	}
 
 	if (command == "hash-object") {
@@ -61,6 +68,12 @@ int main(int argc, char* argv[])
 		}
 		Object obj = readObject(argv[2]);
 		std::cout << obj.kind << "\n" << obj.content;
+	}
+
+	if (command == "ls-files") {
+		for (const auto& [path, hash] : loadIndex()) {
+			std::cout << hash << " " << path << "\n";
+		}
 	}
 
 	return 0;
