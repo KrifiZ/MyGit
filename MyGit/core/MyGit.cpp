@@ -81,6 +81,18 @@ int main(int argc, char* argv[])
 		std::cout << writeTree(loadIndex()) << "\n";
 	}
 
+	if (command == "rev-parse") {
+		std::cout << headRefPath() << "\n" << readHeadCommit() << "\n";
+	}
+
+	if (command == "commit") {
+		if (argc < 4 || std::string_view(argv[2]) != "-m") {
+			std::cerr << "Usage: mygit commit -m \"message\"\n";
+			return 1;
+		}
+		std::cout << commit(argv[3]) << "\n";
+	}
+
 	return 0;
 }
 
