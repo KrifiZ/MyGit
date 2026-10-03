@@ -64,5 +64,10 @@ std::string rawToHex(const std::string& raw) {
 }
 
 std::string hexToRaw(const std::string& hex) {
-	return "";
+	std::string raw;
+	for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+		std::string tekst = hex.substr(i, 2);
+		raw += static_cast<char>(std::stoi(tekst, nullptr, 16));
+	}
+	return raw;
 }

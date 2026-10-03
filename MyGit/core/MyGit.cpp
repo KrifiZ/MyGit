@@ -7,6 +7,7 @@
 #include "Objects.h"
 #include <io.h>
 #include <fcntl.h>
+#include "../commands/Commit.h"
 
 int main(int argc, char* argv[])
 {
@@ -74,6 +75,10 @@ int main(int argc, char* argv[])
 		for (const auto& [path, hash] : loadIndex()) {
 			std::cout << hash << " " << path << "\n";
 		}
+	}
+
+	if (command == "write-tree") {
+		std::cout << writeTree(loadIndex()) << "\n";
 	}
 
 	return 0;
