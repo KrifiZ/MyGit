@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (MyGit "core/MyGit.cpp" "core/MyGit.h" "core/Objects.h" "core/Objects.cpp" "utils/Crypto.h" "utils/Crypto.cpp" "utils/ZLibWrapper.h" "utils/ZLibWrapper.cpp" "commands/Add.h" "commands/Add.cpp" "core/Index.cpp")
+add_executable (MyGit "core/MyGit.cpp" "core/MyGit.h" "core/Objects.h" "core/Objects.cpp" "utils/Crypto.h" "utils/Crypto.cpp" "utils/ZLibWrapper.h" "utils/ZLibWrapper.cpp" "commands/Add.h" "commands/Add.cpp" "core/Index.cpp" "commands/Commit.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET MyGit PROPERTY CXX_STANDARD 20)
