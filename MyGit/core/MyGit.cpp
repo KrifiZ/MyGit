@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include "../commands/Commit.h"
 #include "../commands/Log.h"
+#include "../commands/Status.h"
 
 int main(int argc, char* argv[])
 {
@@ -96,6 +97,22 @@ int main(int argc, char* argv[])
 
 	if (command == "log") {
 		log();
+	}
+
+	if (command == "ls-tree") {
+		if (argc < 3 || strlen(argv[2]) != 40) {
+			std::cerr << "Usage: mygit ls-tree <40-char hash>\n";
+			return 1;
+		}
+		Index entries;
+		readTree(argv[2], "", entries);
+		for (const auto& [path, hash] : entries) {
+			std::cout << hash << " " << path << "\n";
+		}
+	}
+
+	if (command == "status") {
+		status();
 	}
 
 	return 0;
