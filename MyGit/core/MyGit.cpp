@@ -8,6 +8,7 @@
 #include <io.h>
 #include <fcntl.h>
 #include "../commands/Commit.h"
+#include "../commands/Log.h"
 
 int main(int argc, char* argv[])
 {
@@ -91,6 +92,10 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 		std::cout << commit(argv[3]) << "\n";
+	}
+
+	if (command == "log") {
+		log();
 	}
 
 	return 0;
