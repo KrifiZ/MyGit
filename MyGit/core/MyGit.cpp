@@ -45,7 +45,9 @@ int main(int argc, char* argv[])
 		Add add;
 		if (std::string_view(argv[2]) == ".") {
 			for (const std::string& path : listWorkingFiles()) {
-				add.addBlob(path, index);
+				if (!isIgnored(path)) {
+					add.addBlob(path, index);
+				}
 			}
 		}
 		else {
