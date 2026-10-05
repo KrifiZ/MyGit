@@ -11,3 +11,4 @@ void saveIndex(const Index& index);
 
 std::string normalizePath(const std::string& path);
 std::vector<std::string> listWorkingFiles();
+bool isIgnored(const std::string& path);

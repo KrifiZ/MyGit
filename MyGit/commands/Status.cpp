@@ -73,7 +73,7 @@ void status() {
 
 	std::cout << "\nUntracked files:\n";
 	for (const auto& [path, hash] : working) {
-		if (!index.contains(path)) {
+		if (!index.contains(path) && !isIgnored(path)) {
 			std::cout << "  " << path << '\n';
 		}
 	}

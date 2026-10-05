@@ -38,3 +38,25 @@ std::vector<std::string> listWorkingFiles() {
 	}
 	return files;
 }
+
+bool isIgnored(const std::string& path) {
+	std::ifstream file(".mygitignore");
+	std::string line;
+	while (std::getline(file, line)) {
+		if (line.empty() || line.starts_with('#')) {
+			continue;
+		}
+		if (line == path) {
+			return true;
+		}
+		if (line.ends_with('/') && path.starts_with(line) ){
+			return true;
+		}
+		if (line.starts_with('*')) {
+			if (path.ends_with(line.substr(1))) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
